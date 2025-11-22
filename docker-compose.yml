@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./apps/api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/api/prisma/dev.db:/app/dev.db
+    environment:
+      - DATABASE_URL=file:./dev.db
+      - JWT_SECRET=supersecretkey
+      - WHATSAPP_API_TOKEN=${WHATSAPP_API_TOKEN}
+      - WHATSAPP_PHONE_NUMBER_ID=${WHATSAPP_PHONE_NUMBER_ID}
+      - WHATSAPP_VERIFY_TOKEN=${WHATSAPP_VERIFY_TOKEN}
+
+  web:
+    build: ./apps/web
+    ports:
+      - "80:80"
+    depends_on:
+      - api

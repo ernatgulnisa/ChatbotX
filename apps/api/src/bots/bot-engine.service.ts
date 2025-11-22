@@ -71,11 +71,15 @@ export class BotEngineService {
                             startTime.setHours(11, 0, 0, 0);
                         }
 
+                        const endTime = new Date(startTime);
+                        endTime.setHours(endTime.getHours() + 1); // Default 1 hour duration
+
                         await this.prisma.appointment.create({
                             data: {
                                 clientId: client.id,
                                 serviceId: serviceId,
                                 startTime: startTime,
+                                endTime: endTime,
                                 status: 'CONFIRMED'
                             }
                         });
